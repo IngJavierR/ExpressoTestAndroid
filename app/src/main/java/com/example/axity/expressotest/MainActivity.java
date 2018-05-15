@@ -1,14 +1,18 @@
 package com.example.axity.expressotest;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView tvMessage;
+    EditText etInputUsername;
+    EditText etInputPwd;
+    TextView tvStatusMessage;
     Button btnMessage;
 
     @Override
@@ -21,17 +25,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        tvMessage = findViewById(R.id.tvMessage);
-        btnMessage = findViewById(R.id.btnMessage);
+        etInputUsername = findViewById(R.id.et_input_username);
+        etInputPwd = findViewById(R.id.et_input_pwd);
+        tvStatusMessage = findViewById(R.id.tv_status_message);
+        btnMessage = findViewById(R.id.btn_message);
     }
 
     private void setUpActions() {
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tvMessage.setText("Prueba Exitosa");
+                Intent intent = new Intent(MainActivity.this, WelcomeActivity.class);
+                if(validateUser(
+                        MainActivity.this.etInputUsername.getText().toString(),
+                        MainActivity.this.etInputPwd.getText().toString())) {
+                    //MainActivity.this.tvStatusMessage.setText("Login valido");
+                    startActivity(intent);
+                } else {
+                    MainActivity.this.tvStatusMessage.setText("Login incorrecto");
+                }
             }
         });
+    }
+
+    public boolean validateUser(String usr, String pwd) {
+        return ("Javier".equals(usr) && "Axity".equals(pwd));
     }
 
 }
